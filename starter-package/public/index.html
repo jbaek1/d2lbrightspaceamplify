@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoCourse</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #FEEEB6 0%, #B49248 100%);
+            min-height: 100vh;
+            color: #1C1C1C;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #1C1C1C;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #1C1C1C, #B49248);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            color: #1C1C1C;
+        }
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(28, 28, 28, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(207, 174, 112, 0.2);
+        }
+
+        .status-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            background: #FFFFFF;
+            border-left: 4px solid #CFAE70;
+            box-shadow: 0 2px 8px rgba(28, 28, 28, 0.05);
+        }
+
+        .status-section.connected {
+            background: #FFFFFF;
+            border-left-color: #B49248;
+            box-shadow: 0 2px 8px rgba(180, 146, 72, 0.1);
+        }
+
+        .status-section.disconnected {
+            background: #FFFFFF;
+            border-left-color: #CFAE70;
+            box-shadow: 0 2px 8px rgba(207, 174, 112, 0.1);
+        }
+
+        .upload-section {
+            margin-bottom: 40px;
+        }
+
+        .upload-zone {
+            border: 3px dashed #CFAE70;
+            border-radius: 12px;
+            padding: 60px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #FFFFFF;
+            margin-bottom: 20px;
+        }
+
+        .upload-zone.drag-over {
+            border-color: #B49248;
+            background: rgba(180, 146, 72, 0.1);
+            transform: scale(1.02);
+        }
+
+        .upload-zone:hover {
+            border-color: #B49248;
+            background: rgba(180, 146, 72, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #CFAE70;
+            margin-bottom: 20px;
+        }
+
+        .upload-zone.drag-over .upload-icon {
+            color: #B49248;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 8px;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #B49248, #CFAE70);
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(180, 146, 72, 0.3);
+        }
+
+        .btn-secondary {
+            background: #CFAE70;
+            color: #1C1C1C;
+        }
+
+        .btn-secondary:hover {
+            background: #B49248;
+            color: #FFFFFF;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #B49248;
+            color: #FFFFFF;
+        }
+
+        .btn-success:hover {
+            background: #CFAE70;
+            color: #1C1C1C;
+            transform: translateY(-2px);
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #FFFFFF;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(28, 28, 28, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(207, 174, 112, 0.1);
+        }
+
+        .file-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(180, 146, 72, 0.15);
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .file-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: #B49248;
+        }
+
+        .file-details {
+            flex-grow: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #1C1C1C;
+            margin-bottom: 4px;
+        }
+
+        .file-size {
+            font-size: 0.9rem;
+            color: #CFAE70;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.875rem;
+        }
+
+        .btn-danger {
+            background: #1C1C1C;
+            color: #FFFFFF;
+        }
+
+        .btn-danger:hover {
+            background: #000000;
+        }
+
+        .processing-indicator {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: #FFFFFF;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid rgba(207, 174, 112, 0.2);
+        }
+
+        .processing-indicator.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #FEEEB6;
+            border-top: 3px solid #B49248;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #FFFFFF;
+            border-radius: 12px;
+            display: none;
+            border: 1px solid rgba(207, 174, 112, 0.2);
+        }
+
+        .results-section.show {
+            display: block;
+        }
+
+        .result-item {
+            background: #FFFFFF;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(28, 28, 28, 0.05);
+            border: 1px solid rgba(207, 174, 112, 0.1);
+        }
+
+        .course-selection {
+            margin: 20px 0;
+        }
+
+        .course-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #CFAE70;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #FFFFFF;
+            color: #1C1C1C;
+        }
+
+        .course-select:focus {
+            outline: none;
+            border-color: #B49248;
+            box-shadow: 0 0 0 3px rgba(180, 146, 72, 0.1);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #B49248;
+        }
+
+        .notification.error {
+            background: #1C1C1C;
+        }
+
+        .notification.info {
+            background: #CFAE70;
+            color: #1C1C1C;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .main-card {
+                padding: 20px;
+            }
+        }
+
+        .amplify-results {
+            background: linear-gradient(135deg, #B49248 0%, #CFAE70 100%);
+            color: #1C1C1C;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .amplify-results h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            color: #1C1C1C;
+        }
+
+        .amplify-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.3);
+            color: #1C1C1C;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            margin: 4px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀BrightSpace AI</h1>
+            <p>Upload any course files, let AI do the rest of the work to create your BrightSpace course page!</p>
+        </div>
+
+        <div class="main-card">
+            <!-- Authentication Status -->
+            <div id="auth-status" class="status-section disconnected">
+                <h3>🔐 Brightspace Connection</h3>
+                <p id="auth-message">Not connected to Brightspace</p>
+                <button id="connect-btn" class="btn btn-primary" onclick="authenticateBrightspace()">
+                    Connect to Brightspace
+                </button>
+            </div>
+
+            <!-- File Upload Section -->
+            <div class="upload-section">
+                <h2>📁 Upload course files to get started!</h2>
+                <p>Upload course syllabi, slides, videos, or other files to populate your BrightSpace course!</p>
+                
+                <div id="upload-zone" class="upload-zone" onclick="document.getElementById('file-input').click()">
+                    <div class="upload-icon">📁</div>
+                    <h3>Drop files here or click to browse</h3>
+                    <p>Supports: PDF, DOC, DOCX, TXT, PNG, JPG, CSV, and more</p>
+                </div>
+                
+                <input type="file" id="file-input" class="file-input" multiple 
+                       accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.csv,.xlsx,.pptx">
+                
+                <div id="file-list" class="file-list"></div>
+                
+                <div class="course-selection" id="course-selection" style="display: none;">
+                    <h3>🎓 Select Target Course</h3>
+                    <select id="course-select" class="course-select">
+                        <option value="">Loading courses...</option>
+                    </select>
+                </div>
+                
+                <button id="process-btn" class="btn btn-success" onclick="processFiles()" style="display: none;">
+                    🤖 Process with Amplify AI
+                </button>
+            </div>
+
+            <!-- Processing Indicator -->
+            <div id="processing-indicator" class="processing-indicator">
+                <div class="spinner"></div>
+                <h3>🤖 AI Processing in Progress...</h3>
+                <p>Amplify is analyzing your files and extracting insights</p>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results-section" class="results-section">
+                <h2>🎯 AI Analysis Results</h2>
+                <div id="results-content"></div>
+                
+                <div class="two-column">
+                    <div>
+                        <h3>📝 Suggested Actions</h3>
+                        <div id="suggested-actions"></div>
+                    </div>
+                    <div>
+                        <h3>🎓 Course Integration</h3>
+                        <div id="course-actions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Template -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        let selectedFiles = [];
+        let authStatus = false;
+        let availableCourses = [];
+        let amplifyResults = {};
+
+        // Initialize drag and drop
+        const uploadZone = document.getElementById('upload-zone');
+        const fileInput = document.getElementById('file-input');
+
+        // Drag and drop handlers
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('drag-over');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('drag-over');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('drag-over');
+            const files = Array.from(e.dataTransfer.files);
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            handleFiles(files);
+        });
+
+        function handleFiles(files) {
+            files.forEach(file => {
+                if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
+                    selectedFiles.push(file);
+                }
+            });
+            updateFileList();
+            updateProcessButton();
+        }
+
+        function updateFileList() {
+            const fileList = document.getElementById('file-list');
+            fileList.innerHTML = '';
+
+            selectedFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                const fileIcon = getFileIcon(file.type);
+                const fileSize = formatFileSize(file.size);
+                
+                fileItem.innerHTML = `
+                    <div class="file-info">
+                        <div class="file-icon">${fileIcon}</div>
+                        <div class="file-details">
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-size">${fileSize}</div>
+                        </div>
+                    </div>
+                    <div class="file-actions">
+                        <button class="btn btn-danger btn-sm" onclick="removeFile(${index})">
+                            🗑️ Remove
+                        </button>
+                    </div>
+                `;
+                
+                fileList.appendChild(fileItem);
+            });
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updateFileList();
+            updateProcessButton();
+        }
+
+        function updateProcessButton() {
+            const processBtn = document.getElementById('process-btn');
+            const courseSelection = document.getElementById('course-selection');
+            
+            if (selectedFiles.length > 0) {
+                processBtn.style.display = 'inline-block';
+                if (authStatus) {
+                    courseSelection.style.display = 'block';
+                }
+            } else {
+                processBtn.style.display = 'none';
+                courseSelection.style.display = 'none';
+            }
+        }
+
+        function getFileIcon(mimeType) {
+            if (mimeType.includes('pdf')) return '📄';
+            if (mimeType.includes('image')) return '🖼️';
+            if (mimeType.includes('video')) return '🎥';
+            if (mimeType.includes('audio')) return '🎵';
+            if (mimeType.includes('text')) return '📝';
+            if (mimeType.includes('spreadsheet') || mimeType.includes('excel')) return '📊';
+            if (mimeType.includes('presentation') || mimeType.includes('powerpoint')) return '📋';
+            return '📎';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        async function authenticateBrightspace() {
+            try {
+                window.location.href = '/auth';
+            } catch (error) {
+                showNotification('Authentication failed', 'error');
+                console.error('Auth error:', error);
+            }
+        }
+
+        async function loadCourses() {
+            if (!authStatus) return;
+            
+            try {
+                const response = await fetch('/api/courses');
+                const courses = await response.json();
+                availableCourses = courses;
+                
+                const courseSelect = document.getElementById('course-select');
+                courseSelect.innerHTML = '<option value="">Select a course...</option>';
+                
+                courses.forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course.OrgUnit.Id;
+                    option.textContent = `${course.OrgUnit.Name} (${course.OrgUnit.Code})`;
+                    courseSelect.appendChild(option);
+                });
+            } catch (error) {
+                showNotification('Failed to load courses', 'error');
+                console.error('Course loading error:', error);
+            }
+        }
+
+        async function processFiles() {
+            if (selectedFiles.length === 0) {
+                showNotification('Please select files first', 'error');
+                return;
+            }
+
+            const processingIndicator = document.getElementById('processing-indicator');
+            const resultsSection = document.getElementById('results-section');
+            
+            processingIndicator.classList.add('show');
+            resultsSection.classList.remove('show');
+
+            try {
+                const formData = new FormData();
+                selectedFiles.forEach((file, index) => {
+                    formData.append(`files`, file);
+                });
+
+                const courseId = document.getElementById('course-select').value;
+                if (courseId) {
+                    formData.append('courseId', courseId);
+                }
+
+                // Send files to Amplify AI for processing
+                const response = await fetch('/api/process-files', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const results = await response.json();
+                amplifyResults = results;
+                
+                processingIndicator.classList.remove('show');
+                displayResults(results);
+                showNotification('Files processed successfully!', 'success');
+                
+            } catch (error) {
+                processingIndicator.classList.remove('show');
+                showNotification('Processing failed', 'error');
+                console.error('Processing error:', error);
+            }
+        }
+
+        function displayResults(results) {
+            const resultsSection = document.getElementById('results-section');
+            const resultsContent = document.getElementById('results-content');
+            const suggestedActions = document.getElementById('suggested-actions');
+            const courseActions = document.getElementById('course-actions');
+            
+            // Display Amplify AI results
+            resultsContent.innerHTML = `
+                <div class="amplify-results">
+                    <h3>🤖 Amplify AI Analysis</h3>
+                    <div class="result-item">
+                        <h4>📊 Content Summary</h4>
+                        <p>${results.summary || 'Content analyzed and processed'}</p>
+                    </div>
+                    <div class="result-item">
+                        <h4>🏷️ Extracted Topics</h4>
+                        <div>
+                            ${(results.topics || ['Machine Learning', 'Data Analysis', 'Course Content']).map(topic => 
+                                `<span class="amplify-tag">${topic}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <h4>📝 Key Insights</h4>
+                        <ul>
+                            ${(results.insights || [
+                                'Educational content detected',
+                                'Suitable for course integration',
+                                'Contains actionable learning objectives'
+                            ]).map(insight => `<li>${insight}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+
+            // Display suggested actions
+            suggestedActions.innerHTML = `
+                <div class="result-item">
+                    <button class="btn btn-primary" onclick="createCourseModule()">
+                        📚 Create Course Module
+                    </button>
+                    <button class="btn btn-secondary" onclick="generateQuiz()">
+                        ❓ Generate Quiz
+                    </button>
+                    <button class="btn btn-secondary" onclick="createAssignment()">
+                        📝 Create Assignment
+                    </button>
+                </div>
+            `;
+
+            // Display course actions
+            courseActions.innerHTML = `
+                <div class="result-item">
+                    <button class="btn btn-success" onclick="publishToBrightspace()">
+                        🚀 Publish to Brightspace
+                    </button>
+                    <button class="btn btn-secondary" onclick="previewContent()">
+                        👁️ Preview Content
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportResults()">
+                        💾 Export Results
+                    </button>
+                </div>
+            `;
+            
+            resultsSection.classList.add('show');
+        }
+
+        // Action handlers
+        async function createCourseModule() {
+            showNotification('Creating course module...', 'info');
+            // Implementation for creating course module
+        }
+
+        async function generateQuiz() {
+            showNotification('Generating quiz from content...', 'info');
+            // Implementation for quiz generation
+        }
+
+        async function createAssignment() {
+            showNotification('Creating assignment...', 'info');
+            // Implementation for assignment creation
+        }
+
+        async function publishToBrightspace() {
+            const courseId = document.getElementById('course-select').value;
+            if (!courseId) {
+                showNotification('Please select a course first', 'error');
+                return;
+            }
+
+            showNotification('Publishing to Brightspace...', 'info');
+            
+            try {
+                const response = await fetch('/api/publish-to-brightspace', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        courseId: courseId,
+                        amplifyResults: amplifyResults
+                    })
+                });
+
+                const result = await response.json();
+                showNotification('Successfully published to Brightspace!', 'success');
+            } catch (error) {
+                showNotification('Failed to publish to Brightspace', 'error');
+                console.error('Publish error:', error);
+            }
+        }
+
+        function previewContent() {
+            showNotification('Opening content preview...', 'info');
+            // Implementation for content preview
+        }
+
+        function exportResults() {
+            const dataStr = JSON.stringify(amplifyResults, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'amplify-analysis-results.json';
+            link.click();
+            showNotification('Results exported!', 'success');
+        }
+
+        // Check authentication status on page load
+        async function checkAuthStatus() {
+            try {
+                const response = await fetch('/api/auth-status');
+                const data = await response.json();
+                authStatus = data.authenticated;
+                
+                const authStatusDiv = document.getElementById('auth-status');
+                const authMessage = document.getElementById('auth-message');
+                const connectBtn = document.getElementById('connect-btn');
+                
+                if (authStatus) {
+                    authStatusDiv.className = 'status-section connected';
+                    authMessage.textContent = `Connected as ${data.user?.DisplayName || 'User'}`;
+                    connectBtn.textContent = '✅ Connected';
+                    connectBtn.disabled = true;
+                    loadCourses();
+                } else {
+                    authStatusDiv.className = 'status-section disconnected';
+                    authMessage.textContent = 'Not connected to Brightspace';
+                    connectBtn.textContent = 'Connect to Brightspace';
+                    connectBtn.disabled = false;
+                }
+                
+                updateProcessButton();
+            } catch (error) {
+                console.error('Auth status check failed:', error);
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', checkAuthStatus);
+    </script>
+</body>
+</html>
