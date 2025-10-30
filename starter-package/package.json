@@ -4,12 +4,15 @@
   "description": "Brightspace API integration for Amplify project at Vanderbilt University",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/enhanced-server.js",
-    "dev": "node src/enhanced-server.js",
-    "legacy": "node src/example-usage.js",
-    "test-auth": "node src/test-authentication.js",
-    "test-api": "node src/test-api-calls.js",
-    "test-amplify": "node -e \"const AmplifyClient = require('./src/amplify-client'); const client = new AmplifyClient(); client.processFile({name:'test.txt', type:'text/plain', buffer:Buffer.from('test')}).then(console.log);\""
+    "start": "node server/enhanced-server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server/enhanced-server.js",
+    "client": "react-scripts start",
+    "build": "react-scripts build",
+    "legacy": "node server/example-usage.js",
+    "test-auth": "node server/test-authentication.js",
+    "test-api": "node server/test-api-calls.js",
+    "test-amplify": "node -e \"const AmplifyClient = require('./server/amplify-client'); const client = new AmplifyClient(); client.processFile({name:'test.txt', type:'text/plain', buffer:Buffer.from('test')}).then(console.log);\""
   },
   "dependencies": {
     "axios": "^1.6.0",
@@ -17,12 +20,29 @@
     "dotenv": "^16.3.1",
     "multer": "^1.4.5-lts.1",
     "cors": "^2.8.5",
-    "formidable": "^3.5.1"
+    "formidable": "^3.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "concurrently": "^8.2.0"
   },
   "keywords": ["brightspace", "api", "oauth", "vanderbilt", "amplify"],
   "author": "Max Moundas",
-  "license": "MIT"
+  "license": "MIT",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "proxy": "http://localhost:3001"
 }
