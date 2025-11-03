@@ -32,6 +32,10 @@
   "keywords": ["brightspace", "api", "oauth", "vanderbilt", "amplify"],
   "author": "Max Moundas",
   "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
