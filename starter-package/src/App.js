@@ -21,6 +21,39 @@ function App() {
     checkAuthStatus();
   }, []);
 
+  // Handle OAuth redirect messages
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get('success');
+    const error = urlParams.get('error');
+
+    if (success === 'authenticated') {
+      showNotification('Successfully connected to Brightspace!', 'success');
+      // Refresh auth status to update UI
+      checkAuthStatus();
+      // Clean up URL parameters
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (error) {
+      let errorMessage = 'Authentication failed';
+      switch (error) {
+        case 'auth_failed':
+          errorMessage = 'Brightspace authentication failed';
+          break;
+        case 'no_code':
+          errorMessage = 'No authorization code received';
+          break;
+        case 'token_exchange_failed':
+          errorMessage = 'Token exchange failed';
+          break;
+        default:
+          errorMessage = 'Authentication error occurred';
+      }
+      showNotification(errorMessage, 'error');
+      // Clean up URL parameters
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+
   // Load courses when authenticated
   useEffect(() => {
     if (authStatus) {
@@ -51,7 +84,7 @@ function App() {
   };
 
   const handleAuthentication = () => {
-    window.location.href = '/auth';
+    window.location.href = 'http://localhost:3001/auth';
   };
 
   const handleFileChange = (files) => {

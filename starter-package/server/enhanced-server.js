@@ -102,20 +102,20 @@ class EnhancedAmplifyServer {
 
       if (error) {
         console.error('❌ OAuth error:', error, error_description);
-        return res.redirect('/?error=auth_failed');
+        return res.redirect('http://localhost:3000/?error=auth_failed');
       }
 
       if (!code) {
-        return res.redirect('/?error=no_code');
+        return res.redirect('http://localhost:3000/?error=no_code');
       }
 
       try {
         await this.brightspaceClient.exchangeCodeForToken(code);
         console.log('✅ Successfully authenticated with Brightspace!');
-        res.redirect('/?success=authenticated');
+        res.redirect('http://localhost:3000/?success=authenticated');
       } catch (error) {
         console.error('❌ Token exchange failed:', error);
-        res.redirect('/?error=token_exchange_failed');
+        res.redirect('http://localhost:3000/?error=token_exchange_failed');
       }
     });
 
