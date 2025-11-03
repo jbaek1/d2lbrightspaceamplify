@@ -1,0 +1,41 @@
+Sample Course Syllabus - Introduction to Computer Science
+
+Course Information:
+- Course Code: CS 101
+- Course Title: Introduction to Computer Science
+- Credits: 3
+- Semester: Fall 2024
+- Instructor: Dr. Jane Smith
+- Email: jane.smith@university.edu
+
+Course Description:
+This course provides an introduction to the fundamental concepts of computer science, including programming basics, data structures, algorithms, and problem-solving techniques. Students will learn to write programs in Python and develop critical thinking skills for computational problems.
+
+Learning Objectives:
+By the end of this course, students will be able to:
+1. Understand basic programming concepts and syntax
+2. Implement simple data structures (lists, dictionaries, sets)
+3. Design and analyze basic algorithms
+4. Apply problem-solving strategies to computational challenges
+5. Debug and test programs effectively
+
+Course Materials:
+- Textbook: "Introduction to Programming with Python" by Author Name
+- Online resources: Course website and programming environment
+- Software: Python 3.x, IDE of choice
+
+Assessment Methods:
+- Programming Assignments (40%)
+- Midterm Exam (25%)
+- Final Project (25%)
+- Class Participation (10%)
+
+Weekly Schedule:
+Week 1-2: Introduction to Programming
+Week 3-4: Variables and Data Types
+Week 5-6: Control Structures
+Week 7-8: Functions and Modules
+Week 9-10: Data Structures
+Week 11-12: File Handling
+Week 13-14: Final Project Development
+Week 15: Presentations and Review

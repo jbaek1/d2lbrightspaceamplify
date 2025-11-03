@@ -7,7 +7,9 @@ const FileUploadSection = ({
   selectedCourse, 
   onCourseChange, 
   authStatus, 
-  onProcess 
+  onProcess,
+  fileType,
+  onFileTypeChange
 }) => {
   const fileInputRef = useRef(null);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -68,6 +70,27 @@ const FileUploadSection = ({
     <div className="upload-section">
       <h2>📁 Upload Files for AI Analysis</h2>
       <p>Upload documents, images, or other files to be processed by Amplify AI</p>
+
+      {/* File Type Selection */}
+      <div className="file-type-selection">
+        <h3>📋 Select File Type</h3>
+        <select
+          className="file-type-select"
+          value={fileType}
+          onChange={(e) => onFileTypeChange(e.target.value)}
+        >
+          <option value="general">General Course Content</option>
+          <option value="syllabus">Course Syllabus</option>
+          <option value="readings">Course Readings</option>
+          <option value="slides">Lecture Slides</option>
+        </select>
+        <p className="file-type-description">
+          {fileType === 'syllabus' && '📄 Extract course details and structure from syllabus documents'}
+          {fileType === 'readings' && '📚 Analyze reading materials and generate study guides'}
+          {fileType === 'slides' && '📊 Process lecture slides and create interactive content'}
+          {fileType === 'general' && '🔍 General analysis and educational content generation'}
+        </p>
+      </div>
 
       <div
         className={`upload-zone ${isDragOver ? 'drag-over' : ''}`}

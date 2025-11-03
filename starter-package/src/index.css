@@ -376,3 +376,189 @@ body {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
+/* File Type Selection Styles */
+.file-type-selection {
+  margin-bottom: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #FEEEB6 0%, #F5E8C8 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(180, 146, 72, 0.3);
+}
+
+.file-type-selection h3 {
+  margin: 0 0 10px 0;
+  color: #1C1C1C;
+  font-size: 1.2rem;
+}
+
+.file-type-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #B49248;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #FFFFFF;
+  color: #1C1C1C;
+  margin-bottom: 10px;
+}
+
+.file-type-select:focus {
+  outline: none;
+  border-color: #8B7355;
+  box-shadow: 0 0 0 3px rgba(180, 146, 72, 0.2);
+}
+
+.file-type-description {
+  font-size: 0.9rem;
+  color: #5D4E37;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Syllabus Entity Editor Styles */
+.syllabus-entity-editor {
+  background: #FFFFFF;
+  border-radius: 8px;
+  padding: 30px;
+  margin: 20px 0;
+  border: 1px solid rgba(207, 174, 112, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.syllabus-entity-editor .header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.syllabus-entity-editor .header h2 {
+  color: #1C1C1C;
+  margin-bottom: 10px;
+}
+
+.syllabus-entity-editor .header p {
+  color: #5D4E37;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.entity-grid {
+  display: grid;
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.entity-field {
+  background: #FEEEB6;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(180, 146, 72, 0.3);
+}
+
+.entity-label {
+  display: block;
+  font-weight: 600;
+  color: #1C1C1C;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.view-mode {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.entity-value {
+  flex-grow: 1;
+  color: #1C1C1C;
+  line-height: 1.5;
+}
+
+.no-value {
+  color: #999;
+  font-style: italic;
+}
+
+.entity-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.entity-list li {
+  margin-bottom: 5px;
+  color: #1C1C1C;
+}
+
+.edit-mode {
+  width: 100%;
+}
+
+.entity-input,
+.entity-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #B49248;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.entity-input:focus,
+.entity-textarea:focus {
+  outline: none;
+  border-color: #8B7355;
+  box-shadow: 0 0 0 3px rgba(180, 146, 72, 0.2);
+}
+
+.entity-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid #B49248;
+  color: #B49248;
+}
+
+.btn-outline:hover {
+  background: #B49248;
+  color: #FFFFFF;
+}
+
+.confirm-section {
+  text-align: center;
+  padding: 30px;
+  background: linear-gradient(135deg, #F5E8C8 0%, #FEEEB6 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(180, 146, 72, 0.3);
+}
+
+.extraction-status {
+  margin-bottom: 20px;
+}
+
+.extraction-note {
+  color: #5D4E37;
+  font-size: 1rem;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 15px;
+  border-radius: 6px;
+  border-left: 4px solid #B49248;
+}
+
+.btn-large {
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}

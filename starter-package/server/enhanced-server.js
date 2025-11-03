@@ -166,6 +166,10 @@ class EnhancedAmplifyServer {
 
         console.log(`🚀 Processing ${req.files.length} files...`);
         
+        // Get file type from request
+        const fileType = req.body.fileType || 'general';
+        console.log(`📋 File type: ${fileType}`);
+        
         // Prepare files for Amplify processing
         const amplifyFiles = req.files.map(file => ({
           path: file.path,
@@ -184,23 +188,28 @@ class EnhancedAmplifyServer {
           }
         }
 
-        // Process files through Amplify AI
+        // Process files through Amplify AI with file type context
         const amplifyResults = await this.amplifyClient.processFiles(amplifyFiles, {
-          processingType: 'educational_content',
+          processingType: fileType === 'syllabus' ? 'syllabus_extraction' : 'educational_content',
+          fileType: fileType,
           courseContext: courseContext,
-          includeQuiz: true,
-          includeAssignment: true
+          includeQuiz: fileType !== 'syllabus',
+          includeAssignment: fileType !== 'syllabus'
         });
 
-        // Generate educational content suggestions
-        const educationalContent = await this.amplifyClient.generateEducationalContent(
-          amplifyResults, 
-          { contentType: 'module', includeQuiz: true, includeAssignment: true }
-        );
+        // Generate educational content suggestions (skip for syllabus)
+        let educationalContent = null;
+        if (fileType !== 'syllabus') {
+          educationalContent = await this.amplifyClient.generateEducationalContent(
+            amplifyResults, 
+            { contentType: 'module', includeQuiz: true, includeAssignment: true }
+          );
+        }
 
         // Combine results
         const combinedResults = {
           ...amplifyResults,
+          file_type: fileType,
           educational_content: educationalContent,
           course_context: courseContext,
           upload_info: {
@@ -289,6 +298,41 @@ class EnhancedAmplifyServer {
         console.error('❌ Publishing to Brightspace failed:', error);
         res.status(500).json({ 
           error: 'Failed to publish to Brightspace', 
+          details: error.message 
+        });
+      }
+    });
+
+    // Generate course from confirmed syllabus entities
+    this.app.post('/api/generate-course-from-syllabus', async (req, res) => {
+      try {
+        const { entities, courseId } = req.body;
+        
+        if (!entities) {
+          return res.status(400).json({ error: 'Syllabus entities are required' });
+        }
+
+        console.log('🏗️ Generating course from confirmed syllabus entities...');
+
+        // Use the confirmed entities to generate course content
+        const courseContent = await this.amplifyClient.generateCourseFromSyllabus(entities, {
+          courseId: courseId,
+          includeModules: true,
+          includeAssessments: true
+        });
+
+        res.json({
+          success: true,
+          file_type: 'syllabus_generated',
+          syllabus_entities: entities,
+          generated_content: courseContent,
+          timestamp: new Date().toISOString()
+        });
+
+      } catch (error) {
+        console.error('❌ Course generation from syllabus failed:', error);
+        res.status(500).json({ 
+          error: 'Course generation failed', 
           details: error.message 
         });
       }

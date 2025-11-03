@@ -4,12 +4,14 @@ import FileUploadSection from './components/FileUploadSection';
 import AuthSection from './components/AuthSection';
 import ProcessingIndicator from './components/ProcessingIndicator';
 import ResultsSection from './components/ResultsSection';
+import SyllabusEntityEditor from './components/SyllabusEntityEditor';
 import Notification from './components/Notification';
 
 function App() {
   const [authStatus, setAuthStatus] = useState(false);
   const [user, setUser] = useState(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [fileType, setFileType] = useState('general');
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -91,6 +93,10 @@ function App() {
     setSelectedFiles(files);
   };
 
+  const handleFileTypeChange = (type) => {
+    setFileType(type);
+  };
+
   const handleCourseChange = (courseId) => {
     setSelectedCourse(courseId);
   };
@@ -113,6 +119,9 @@ function App() {
       if (selectedCourse) {
         formData.append('courseId', selectedCourse);
       }
+
+      // Add file type to the request
+      formData.append('fileType', fileType);
 
       const response = await axios.post('/api/process-files', formData, {
         headers: {
@@ -174,6 +183,23 @@ function App() {
     showNotification('Opening content preview...', 'info');
   };
 
+  const handleSyllabusConfirm = async (confirmedEntities) => {
+    showNotification('Generating course from confirmed syllabus details...', 'info');
+    
+    try {
+      const response = await axios.post('/api/generate-course-from-syllabus', {
+        entities: confirmedEntities,
+        courseId: selectedCourse
+      });
+      
+      setResults(response.data);
+      showNotification('Course generated successfully!', 'success');
+    } catch (error) {
+      showNotification('Failed to generate course', 'error');
+      console.error('Course generation error:', error);
+    }
+  };
+
   const exportResults = () => {
     if (!results) return;
     
@@ -204,6 +230,8 @@ function App() {
         <FileUploadSection
           selectedFiles={selectedFiles}
           onFileChange={handleFileChange}
+          fileType={fileType}
+          onFileTypeChange={handleFileTypeChange}
           courses={courses}
           selectedCourse={selectedCourse}
           onCourseChange={handleCourseChange}
@@ -213,15 +241,23 @@ function App() {
 
         <ProcessingIndicator isProcessing={isProcessing} />
 
-        <ResultsSection
-          results={results}
-          onPublishToBrightspace={publishToBrightspace}
-          onCreateModule={createCourseModule}
-          onGenerateQuiz={generateQuiz}
-          onCreateAssignment={createAssignment}
-          onPreviewContent={previewContent}
-          onExportResults={exportResults}
-        />
+        {/* Show different results based on file type */}
+        {results && fileType === 'syllabus' && results.file_type === 'syllabus' ? (
+          <SyllabusEntityEditor
+            results={results}
+            onConfirm={handleSyllabusConfirm}
+          />
+        ) : (
+          <ResultsSection
+            results={results}
+            onPublishToBrightspace={publishToBrightspace}
+            onCreateModule={createCourseModule}
+            onGenerateQuiz={generateQuiz}
+            onCreateAssignment={createAssignment}
+            onPreviewContent={previewContent}
+            onExportResults={exportResults}
+          />
+        )}
       </div>
 
       <Notification
