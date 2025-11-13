@@ -4,7 +4,7 @@
   "private": true,
   "description": "React client for Amplify-Brightspace integration",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=5173 react-scripts start",
     "build": "react-scripts build"
   },
   "dependencies": {
@@ -25,6 +25,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "https://localhost:3000"
 }
 

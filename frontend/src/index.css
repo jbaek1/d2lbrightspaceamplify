@@ -376,3 +376,148 @@ body {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
+/* Features Section */
+.features-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 12px;
+  background: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(28, 28, 28, 0.05);
+  border: 1px solid rgba(207, 174, 112, 0.1);
+}
+
+.features-section h3 {
+  color: #1C1C1C;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.feature-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.feature-content {
+  color: #1C1C1C;
+  line-height: 1.6;
+}
+
+.feature-content strong {
+  color: #B49248;
+}
+
+/* Brightspace Actions Section */
+.brightspace-actions-section {
+  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.action-card {
+  padding: 20px;
+  border-radius: 12px;
+  background: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(28, 28, 28, 0.05);
+  border: 1px solid rgba(207, 174, 112, 0.1);
+  transition: all 0.3s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(180, 146, 72, 0.15);
+}
+
+.action-card h3 {
+  color: #1C1C1C;
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+
+.action-card p {
+  color: #666;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Activity Log Section */
+.activity-log-section {
+  margin-top: 30px;
+  padding: 20px;
+  border-radius: 12px;
+  background: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(28, 28, 28, 0.05);
+  border: 1px solid rgba(207, 174, 112, 0.1);
+}
+
+.log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.log-header h3 {
+  color: #1C1C1C;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.log-output {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  white-space: pre-wrap;
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  border: 1px solid rgba(207, 174, 112, 0.2);
+}
+
+.log-empty {
+  color: #999;
+  font-style: italic;
+  margin: 0;
+}
+
+.log-entry {
+  margin-bottom: 8px;
+  color: #1C1C1C;
+}
+
+.log-timestamp {
+  color: #B49248;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.log-message {
+  color: #1C1C1C;
+}
+
+.btn-warning {
+  background: #ffc107;
+  color: #333;
+}
+
+.btn-warning:hover {
+  background: #e0a800;
+  color: #000;
+  transform: translateY(-2px);
+}

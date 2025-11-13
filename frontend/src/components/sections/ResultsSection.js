@@ -8,6 +8,9 @@ const ResultsSection = ({
   onCreateAssignment,
   onPreviewContent,
   onExportResults,
+  onCreateAnnouncement,
+  onCreateDiscussion,
+  selectedCourse,
 }) => {
   if (!results) return null;
 
@@ -73,6 +76,26 @@ const ResultsSection = ({
           </div>
         </div>
       </div>
+
+      {selectedCourse && (
+        <div className="brightspace-actions">
+          <h3>📋 Brightspace Content Creation</h3>
+          <div className="result-item">
+            <button 
+              className="btn btn-primary" 
+              onClick={() => onCreateAnnouncement(selectedCourse)}
+            >
+              📰 Create Announcement
+            </button>
+            <button 
+              className="btn btn-primary" 
+              onClick={() => onCreateDiscussion(selectedCourse)}
+            >
+              💬 Create Discussion Forum
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

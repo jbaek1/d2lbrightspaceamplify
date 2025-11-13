@@ -7,7 +7,10 @@ const FileUploadSection = ({
   selectedCourse, 
   onCourseChange, 
   authStatus, 
-  onProcess 
+  onProcess,
+  onCreateAnnouncement,
+  onCreateDiscussion,
+  onUploadToBrightspace
 }) => {
   const fileInputRef = useRef(null);
   const [isDragOver, setIsDragOver] = useState(false);
@@ -136,6 +139,43 @@ const FileUploadSection = ({
         <button className="btn btn-success" onClick={onProcess}>
           🤖 Process with Amplify AI
         </button>
+      )}
+
+      {selectedFiles.length > 0 && authStatus && (
+        <div className="brightspace-quick-actions">
+          <h3>📋 Upload to Brightspace</h3>
+          <div className="action-buttons">
+            {selectedFiles.map((file, index) => (
+              <button
+                key={index}
+                className="btn btn-primary"
+                onClick={() => onUploadToBrightspace && onUploadToBrightspace(file, selectedCourse || '540221')}
+              >
+                📤 Upload {file.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {selectedCourse && authStatus && (
+        <div className="brightspace-quick-actions">
+          <h3>📋 Quick Brightspace Actions</h3>
+          <div className="action-buttons">
+            <button 
+              className="btn btn-primary" 
+              onClick={() => onCreateAnnouncement && onCreateAnnouncement(selectedCourse)}
+            >
+              📰 Create Announcement
+            </button>
+            <button 
+              className="btn btn-primary" 
+              onClick={() => onCreateDiscussion && onCreateDiscussion(selectedCourse)}
+            >
+              💬 Create Discussion Forum
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

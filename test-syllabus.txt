@@ -1,0 +1,77 @@
+COURSE SYLLABUS
+================
+
+Course: Introduction to Computer Science
+Course Code: CS 101
+Instructor: Dr. Jane Smith
+Email: jane.smith@university.edu
+Office Hours: Monday/Wednesday 2-4 PM
+Semester: Fall 2024
+Credits: 3
+
+COURSE DESCRIPTION
+------------------
+This course provides an introduction to fundamental computer science concepts 
+including programming, data structures, and algorithms. Students will learn 
+to think computationally and solve problems using programming languages.
+
+LEARNING OBJECTIVES
+-------------------
+Upon completion of this course, students will be able to:
+1. Understand basic programming concepts and syntax
+2. Implement common data structures (arrays, lists, stacks, queues)
+3. Analyze algorithm complexity and efficiency
+4. Write clean, maintainable code
+5. Debug and test programs effectively
+
+REQUIRED TEXTBOOKS
+------------------
+- "Introduction to Programming" by John Doe (ISBN: 1234567890)
+- "Data Structures and Algorithms" by Jane Smith (ISBN: 0987654321)
+
+COURSE SCHEDULE
+---------------
+Week 1: Introduction to Programming
+Week 2: Variables and Data Types
+Week 3: Control Structures
+Week 4: Functions and Modules
+Week 5: Arrays and Lists
+Week 6: Object-Oriented Programming
+Week 7: Midterm Exam
+Week 8: Stacks and Queues
+Week 9: Trees and Graphs
+Week 10: Sorting Algorithms
+Week 11: Searching Algorithms
+Week 12: Algorithm Analysis
+Week 13: Final Project Presentations
+Week 14: Review and Final Exam
+
+ASSIGNMENTS
+-----------
+- Weekly Programming Assignments (40%)
+- Midterm Exam (25%)
+- Final Project (20%)
+- Final Exam (15%)
+
+GRADING SCALE
+-------------
+A: 90-100%
+B: 80-89%
+C: 70-79%
+D: 60-69%
+F: Below 60%
+
+ACADEMIC POLICIES
+-----------------
+- Late assignments will be penalized 10% per day
+- Academic integrity is expected at all times
+- Attendance is required for all classes
+- Make-up exams require prior approval
+
+CONTACT INFORMATION
+-------------------
+For questions or concerns, please contact:
+- Email: jane.smith@university.edu
+- Office: Science Building, Room 205
+- Office Hours: Monday/Wednesday 2-4 PM
+
